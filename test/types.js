@@ -1,16 +1,17 @@
 'use strict'
-const PostgresInterval = require('postgres-interval')
+import PostgresInterval from 'postgres-interval'
 
-const {
+import {
   Range,
   RANGE_EMPTY,
   RANGE_LB_INC,
   RANGE_LB_INF,
   RANGE_UB_INF,
   RANGE_UB_INC
-} = require('postgres-range')
+} from 'postgres-range'
 
-exports['string/varchar'] = {
+const _types = {}
+_types['string/varchar'] = {
   format: 'text',
   id: 1043,
   tests: [
@@ -18,7 +19,7 @@ exports['string/varchar'] = {
   ]
 }
 
-exports['integer/int4'] = {
+_types['integer/int4'] = {
   format: 'text',
   id: 23,
   tests: [
@@ -26,7 +27,7 @@ exports['integer/int4'] = {
   ]
 }
 
-exports['smallint/int2'] = {
+_types['smallint/int2'] = {
   format: 'text',
   id: 21,
   tests: [
@@ -34,7 +35,7 @@ exports['smallint/int2'] = {
   ]
 }
 
-exports['bigint/int8'] = {
+_types['bigint/int8'] = {
   format: 'text',
   id: 20,
   tests: [
@@ -42,7 +43,7 @@ exports['bigint/int8'] = {
   ]
 }
 
-exports.oid = {
+_types.oid = {
   format: 'text',
   id: 26,
   tests: [
@@ -51,7 +52,7 @@ exports.oid = {
 }
 
 const bignum = '31415926535897932384626433832795028841971693993751058.16180339887498948482045868343656381177203091798057628'
-exports.numeric = {
+_types.numeric = {
   format: 'text',
   id: 1700,
   tests: [
@@ -59,7 +60,7 @@ exports.numeric = {
   ]
 }
 
-exports['real/float4'] = {
+_types['real/float4'] = {
   format: 'text',
   id: 700,
   tests: [
@@ -67,7 +68,7 @@ exports['real/float4'] = {
   ]
 }
 
-exports['double precision / float 8'] = {
+_types['double precision / float 8'] = {
   format: 'text',
   id: 701,
   tests: [
@@ -75,7 +76,7 @@ exports['double precision / float 8'] = {
   ]
 }
 
-exports.boolean = {
+_types.boolean = {
   format: 'text',
   id: 16,
   tests: [
@@ -90,7 +91,7 @@ exports.boolean = {
   ]
 }
 
-exports.timestamptz = {
+_types.timestamptz = {
   format: 'text',
   id: 1184,
   tests: [
@@ -117,7 +118,7 @@ exports.timestamptz = {
   ]
 }
 
-exports.timestamp = {
+_types.timestamp = {
   format: 'text',
   id: 1114,
   tests: [
@@ -142,7 +143,7 @@ exports.timestamp = {
   ]
 }
 
-exports.date = {
+_types.date = {
   format: 'text',
   id: 1082,
   tests: [
@@ -151,7 +152,7 @@ exports.date = {
   ]
 }
 
-exports.inet = {
+_types.inet = {
   format: 'text',
   id: 869,
   tests: [
@@ -163,7 +164,7 @@ exports.inet = {
   ]
 }
 
-exports.cidr = {
+_types.cidr = {
   format: 'text',
   id: 650,
   tests: [
@@ -175,7 +176,7 @@ exports.cidr = {
   ]
 }
 
-exports.macaddr = {
+_types.macaddr = {
   format: 'text',
   id: 829,
   tests: [
@@ -184,7 +185,7 @@ exports.macaddr = {
   ]
 }
 
-exports.numrange = {
+_types.numrange = {
   format: 'text',
   id: 3906,
   tests: [
@@ -221,7 +222,7 @@ exports.numrange = {
   ]
 }
 
-exports.int4range = {
+_types.int4range = {
   format: 'text',
   id: 3904,
   tests: [
@@ -258,7 +259,7 @@ exports.int4range = {
   ]
 }
 
-exports.int8range = {
+_types.int8range = {
   format: 'text',
   id: 3926,
   tests: [
@@ -306,7 +307,7 @@ const tsrangeEquals = ([lower, upper]) => {
     }
   }
 }
-exports.tstzrange = {
+_types.tstzrange = {
   format: 'text',
   id: 3910,
   tests: [
@@ -318,7 +319,7 @@ exports.tstzrange = {
     ['("2010-10-30 10:54:13.74-05:30","2010-10-31 14:54:13.74-05:30")', tsrangeEquals([[2010, 9, 30, 16, 24, 13, 74], [2010, 9, 31, 20, 24, 13, 74]])]
   ]
 }
-exports.tsrange = {
+_types.tsrange = {
   format: 'text',
   id: 3908,
   tests: [
@@ -334,7 +335,7 @@ exports.tsrange = {
     ['("2010-10-30 10:54:13.74","2010-10-31 14:54:13.74")', tsrangeEquals([[2010, 9, 30, 10, 54, 13, 74], [2010, 9, 31, 14, 54, 13, 74]])]
   ]
 }
-exports.daterange = {
+_types.daterange = {
   format: 'text',
   id: 3912,
   tests: [
@@ -354,7 +355,7 @@ function toPostgresInterval (obj) {
   const base = Object.create(PostgresInterval.prototype)
   return Object.assign(base, obj)
 }
-exports.interval = {
+_types.interval = {
   format: 'text',
   id: 1186,
   tests: [
@@ -376,7 +377,7 @@ exports.interval = {
   ]
 }
 
-exports.bytea = {
+_types.bytea = {
   format: 'text',
   id: 17,
   tests: [
@@ -391,7 +392,7 @@ exports.bytea = {
   ]
 }
 
-exports['array/boolean'] = {
+_types['array/boolean'] = {
   format: 'text',
   id: 1000,
   tests: [
@@ -401,7 +402,7 @@ exports['array/boolean'] = {
   ]
 }
 
-exports['array/char'] = {
+_types['array/char'] = {
   format: 'text',
   id: 1014,
   tests: [
@@ -411,7 +412,7 @@ exports['array/char'] = {
   ]
 }
 
-exports['array/varchar'] = {
+_types['array/varchar'] = {
   format: 'text',
   id: 1015,
   tests: [
@@ -421,7 +422,7 @@ exports['array/varchar'] = {
   ]
 }
 
-exports['array/text'] = {
+_types['array/text'] = {
   format: 'text',
   id: 1008,
   tests: [
@@ -431,7 +432,7 @@ exports['array/text'] = {
   ]
 }
 
-exports['array/bytea'] = {
+_types['array/bytea'] = {
   format: 'text',
   id: 1001,
   tests: [
@@ -451,7 +452,7 @@ exports['array/bytea'] = {
   ]
 }
 
-exports['array/numeric'] = {
+_types['array/numeric'] = {
   format: 'text',
   id: 1231,
   tests: [
@@ -461,7 +462,7 @@ exports['array/numeric'] = {
   ]
 }
 
-exports['array/int2'] = {
+_types['array/int2'] = {
   format: 'text',
   id: 1005,
   tests: [
@@ -471,7 +472,7 @@ exports['array/int2'] = {
   ]
 }
 
-exports['array/int4'] = {
+_types['array/int4'] = {
   format: 'text',
   id: 1005,
   tests: [
@@ -481,7 +482,7 @@ exports['array/int4'] = {
   ]
 }
 
-exports['array/int8'] = {
+_types['array/int8'] = {
   format: 'text',
   id: 1016,
   tests: [
@@ -499,7 +500,7 @@ exports['array/int8'] = {
   ]
 }
 
-exports['array/json'] = {
+_types['array/json'] = {
   format: 'text',
   id: 199,
   tests: [
@@ -516,13 +517,13 @@ exports['array/json'] = {
   ]
 }
 
-exports['array/jsonb'] = {
+_types['array/jsonb'] = {
   format: 'text',
   id: 3807,
-  tests: exports['array/json'].tests
+  tests: _types['array/json'].tests
 }
 
-exports['array/point'] = {
+_types['array/point'] = {
   format: 'text',
   id: 1017,
   tests: [
@@ -532,7 +533,7 @@ exports['array/point'] = {
   ]
 }
 
-exports['array/oid'] = {
+_types['array/oid'] = {
   format: 'text',
   id: 1028,
   tests: [
@@ -542,7 +543,7 @@ exports['array/oid'] = {
   ]
 }
 
-exports['array/float4'] = {
+_types['array/float4'] = {
   format: 'text',
   id: 1021,
   tests: [
@@ -552,7 +553,7 @@ exports['array/float4'] = {
   ]
 }
 
-exports['array/float8'] = {
+_types['array/float8'] = {
   format: 'text',
   id: 1022,
   tests: [
@@ -562,7 +563,7 @@ exports['array/float8'] = {
   ]
 }
 
-exports['array/date'] = {
+_types['array/date'] = {
   format: 'text',
   id: 1182,
   tests: [
@@ -572,7 +573,7 @@ exports['array/date'] = {
   ]
 }
 
-exports['array/interval'] = {
+_types['array/interval'] = {
   format: 'text',
   id: 1187,
   tests: [
@@ -585,7 +586,7 @@ exports['array/interval'] = {
   ]
 }
 
-exports['array/inet'] = {
+_types['array/inet'] = {
   format: 'text',
   id: 1041,
   tests: [
@@ -601,7 +602,7 @@ exports['array/inet'] = {
   ]
 }
 
-exports['array/cidr'] = {
+_types['array/cidr'] = {
   format: 'text',
   id: 651,
   tests: [
@@ -617,7 +618,7 @@ exports['array/cidr'] = {
   ]
 }
 
-exports['array/macaddr'] = {
+_types['array/macaddr'] = {
   format: 'text',
   id: 1040,
   tests: [
@@ -627,7 +628,7 @@ exports['array/macaddr'] = {
   ]
 }
 
-exports['array/numrange'] = {
+_types['array/numrange'] = {
   format: 'text',
   id: 3907,
   tests: [
@@ -643,7 +644,7 @@ exports['array/numrange'] = {
   ]
 }
 
-exports['binary-string/varchar'] = {
+_types['binary-string/varchar'] = {
   format: 'binary',
   id: 1043,
   tests: [
@@ -651,7 +652,7 @@ exports['binary-string/varchar'] = {
   ]
 }
 
-exports['binary-integer/int4'] = {
+_types['binary-integer/int4'] = {
   format: 'binary',
   id: 23,
   tests: [
@@ -659,7 +660,7 @@ exports['binary-integer/int4'] = {
   ]
 }
 
-exports['binary-smallint/int2'] = {
+_types['binary-smallint/int2'] = {
   format: 'binary',
   id: 21,
   tests: [
@@ -667,7 +668,7 @@ exports['binary-smallint/int2'] = {
   ]
 }
 
-exports['binary-bigint/int8'] = {
+_types['binary-bigint/int8'] = {
   format: 'binary',
   id: 20,
   tests: [
@@ -675,7 +676,7 @@ exports['binary-bigint/int8'] = {
   ]
 }
 
-exports['binary-oid'] = {
+_types['binary-oid'] = {
   format: 'binary',
   id: 26,
   tests: [
@@ -683,7 +684,7 @@ exports['binary-oid'] = {
   ]
 }
 
-exports['binary-numeric'] = {
+_types['binary-numeric'] = {
   format: 'binary',
   id: 1700,
   tests: [
@@ -694,7 +695,7 @@ exports['binary-numeric'] = {
   ]
 }
 
-exports['binary-real/float4'] = {
+_types['binary-real/float4'] = {
   format: 'binary',
   id: 700,
   tests: [
@@ -702,7 +703,7 @@ exports['binary-real/float4'] = {
   ]
 }
 
-exports['binary-boolean'] = {
+_types['binary-boolean'] = {
   format: 'binary',
   id: 16,
   tests: [
@@ -711,7 +712,7 @@ exports['binary-boolean'] = {
   ]
 }
 
-exports['binary-string'] = {
+_types['binary-string'] = {
   format: 'binary',
   id: 25,
   tests: [
@@ -722,7 +723,7 @@ exports['binary-string'] = {
   ]
 }
 
-exports['binary-array/int4'] = {
+_types['binary-array/int4'] = {
   format: 'binary',
   id: 1007,
   tests: [
@@ -742,7 +743,7 @@ exports['binary-array/int4'] = {
   ]
 }
 
-exports['binary-array/int8'] = {
+_types['binary-array/int8'] = {
   format: 'binary',
   id: 1016,
   tests: [
@@ -775,7 +776,7 @@ exports['binary-array/int8'] = {
   ]
 }
 
-exports.point = {
+_types.point = {
   format: 'text',
   id: 600,
   tests: [
@@ -785,7 +786,7 @@ exports.point = {
   ]
 }
 
-exports.circle = {
+_types.circle = {
   format: 'text',
   id: 718,
   tests: [
@@ -801,3 +802,5 @@ function dateEquals () {
     t.equal(value.toUTCString(), new Date(timestamp).toUTCString())
   }
 }
+
+export { _types }

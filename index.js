@@ -1,10 +1,8 @@
-const textParsers = require('./lib/textParsers')
-const binaryParsers = require('./lib/binaryParsers')
-const builtinTypes = require('./lib/builtins')
+import textParsers from './lib/textParsers.js'
+import binaryParsers from './lib/binaryParsers.js'
+import builtinTypes from './lib/builtins.js'
 
-exports.getTypeParser = getTypeParser
-exports.setTypeParser = setTypeParser
-exports.builtins = builtinTypes
+export { getTypeParser, setTypeParser, builtinTypes }
 
 const typeParsers = {
   text: {},

@@ -1,7 +1,7 @@
 
-const test = require('tape')
-const { getTypeParser, setTypeParser } = require('../')
-const types = require('./types')
+import test from 'tape'
+import { getTypeParser, setTypeParser } from '../index.js'
+import { _types as types } from './types.js'
 
 test('types', function (t) {
   Object.keys(types).forEach(function (typeName) {
